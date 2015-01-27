@@ -54,15 +54,11 @@
 <script type="text/javascript">
 	function convert() {
 		var input = document.getElementById("input").value;
-		console.log(input);
-		console.log(getRows(input))
 		var rows = getRows(input);
 		
 		var output = "{|<br/>";
 		for(var i=0; i<rows.length; i++) {
-			//console.log(rows)
 			var cells = getCells(rows[i]);
-			console.log(cells)
 			for(j=0; j<cells.length; j++) {
 				output += "|" + cells[j] + "<br/>";
 			}
