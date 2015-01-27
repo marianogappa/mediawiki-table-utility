@@ -1,0 +1,89 @@
+<html>
+<head>
+	<style>
+		body {
+			font-family: ‘Lucida Console’, Monaco, monospace;
+			background-color: #EEE;
+		}
+		#input {
+			padding: 20px;
+			margin-left: 30px;
+			width: 500px;
+			border-color: #CCC;
+			font-size: 16px;
+		}
+
+		#output {
+			padding: 20px;
+			margin: 30px;
+			margin-top: 0px;
+			width: 500px;
+			border: 1px solid #ccc;
+			background-color: #FFF;
+			font-size: 16px;
+		}
+
+		#input_label, #output_label {
+			margin: 25px 0px 5px 30px;
+			font-family: Roboto, 'Open Sans', sans-serif;
+			color: #999;
+		}
+		#footer {
+		    margin-top: 30px;
+		    margin-left: 25px;
+		    font-family: Roboto, 'Open Sans', sans-serif;
+		    font-size: 12px;
+		    color: #bbb;
+		}
+		#footer a {
+		    text-decoration: none;
+		    color: #bbb;
+		    margin: 0px 5px 0px 5px;
+		}
+		#footer a:hover {
+		    text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+<div id="output_label">Tab-separated table (e.g. Excel, Google Docs)</div>
+<textarea id="input" onkeyup="convert()" placeholder="Paste your spreadsheed contents here"></textarea>
+<div id="output_label">MediaWiki formatted table</div>
+<div id="output"></div>
+<div id="footer"><a href="https://twitter.com/MarianoGappa">@MarianoGappa</a> - <a href="https://github.com/MarianoGappa/mediawiki-table-utility">Source Code</a> - <a href="https://github.com/MarianoGappa/mediawiki-table-utility/issues">Bug Report</a></div>
+<script type="text/javascript">
+	function convert() {
+		var input = document.getElementById("input").value;
+		console.log(input);
+		console.log(getRows(input))
+		var rows = getRows(input);
+		
+		var output = "{|<br/>";
+		for(var i=0; i<rows.length; i++) {
+			//console.log(rows)
+			var cells = getCells(rows[i]);
+			console.log(cells)
+			for(j=0; j<cells.length; j++) {
+				output += "|" + cells[j] + "<br/>";
+			}
+			if(i!=rows.length-1)
+				output += "|-<br/>";
+		}
+		output += "|}";
+		
+		document.getElementById("output").innerHTML = output;
+	}
+	convert();
+	function getRows(s) { return s.split(/\n/) }
+	function getCells(s) { return replaceFalsies(s.split("\t")); }
+	
+	function replaceFalsies(a) {
+		for(var index in a) {
+			if(!a[index])
+				a[index] = "";
+	    }
+	    return a;
+	}
+</script>
+</body>
+</html>
